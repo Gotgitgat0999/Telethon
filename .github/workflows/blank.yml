@@ -1,0 +1,32 @@
+from telethon.sync import TelegramClient
+import asyncio
+import time
+
+# Replace with your Telegram API details
+api_id = YOUR_API_ID
+api_hash = 'YOUR_API_HASH'
+phone_number = '+91XXXXXXXXXX'  # Telegram phone number with country code
+
+# Message & link to send
+caption = "📣 Watch the latest Kannada Breaking News here 👇\n🔗 https://youtube.com/@primenewskannadaN\nSubscribe now for regular updates! 🔔"
+
+# List of Telegram group usernames or IDs
+target_groups = [
+    'https://t.me/karnatakanewsupdates',
+    'https://t.me/kannadanewsalerts',
+    'https://t.me/karnatakapoliticsdaily'
+]
+
+async def main():
+    async with TelegramClient('primebot', api_id, api_hash) as client:
+        await client.start(phone=phone_number)
+
+        for group in target_groups:
+            try:
+                await client.send_message(group, caption)
+                print(f"✅ Sent to {group}")
+                time.sleep(10)  # delay to avoid spam detection
+            except Exception as e:
+                print(f"❌ Failed to send to {group}: {e}")
+
+asyncio.run(main())
